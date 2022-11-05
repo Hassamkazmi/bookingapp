@@ -1,0 +1,41 @@
+input, select {
+  border-radius: 2px;
+  border: 2px solid orange;
+  box-sizing: border-box;
+  font-size: 1.25em;
+  font-family: 'Nanum Gothic';
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+}
+
+div.elem-group.inlined input {
+  width: 95%;
+  display: inline-block;
+}
+
+
+
+hr {
+  border: 1px dotted #ccc;
+}
+
+button {
+  height: 50px;
+  background: orange;
+  border: none;
+  color: white;
+  font-size: 1.25em;
+  font-family: 'Nanum Gothic';
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin: 10px;
+}
+
+
+
+.layoutmain{
+  display: flex;
+  gap: 20px;
+}
