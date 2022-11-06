@@ -1,22 +1,31 @@
-import "../CSS/searchbox.css";
+import {
+  faBed,
+  faCalendarDays,
+  faCar,
+  faPerson,
+  faPlane,
+  faTaxi,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./header.css";
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-const SearchForm = () => {
+const Header = ({ type }) => {
   const [ArrivalDate, SetArrivalDate] = useState();
   const [DepartDate, SetDepartDate] = useState();
   const [Disable, setDisable] = useState(true);
   const [DataonTable, setDataonTable] = useState([]);
-
+  const navigate = useNavigate();;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  console.log(errors,DepartDate)
-
   const ApiSubmission = async (data) => {
     const options = {
       method: "GET",
@@ -58,8 +67,8 @@ const SearchForm = () => {
   const onSubmit = async (data, event) => {
     await ApiSubmission(data);
     setDataonTable(await ApiSubmission(data));
+    navigate('/hotels')
   };
-  console.log(DataonTable,'DataonTable');
   var date = new Date();
   function toJSONLocal(date) {
     var local = new Date(date);
@@ -73,11 +82,51 @@ const SearchForm = () => {
     setDisable(false);
   };
 
-  const SubmitDisable =  ArrivalDate === '' || DepartDate === ''
+  const SubmitDisable =  ArrivalDate === undefined || DepartDate === undefined
+
+  console.log(ArrivalDate,'ArrivalDate')
+  // const handleSearch = () => {
+  //   navigate("/hotels", { state: { destination, date, options } });
+  // };
+
   return (
-    <div className="SearchForm">
-        <div className="SearchFormCard">
-        <form
+    <div className="header">
+      <div
+        className={
+          type === "list" ? "headerContainer listMode" : "headerContainer"
+        }
+      >
+        <div className="headerList">
+          <div className="headerListItem active">
+            <FontAwesomeIcon icon={faBed} />
+            <span>Stays</span>
+          </div>
+          <div className="headerListItem">
+            <FontAwesomeIcon icon={faPlane} />
+            <span>Flights</span>
+          </div>
+          <div className="headerListItem">
+            <FontAwesomeIcon icon={faCar} />
+            <span>Car rentals</span>
+          </div>
+          <div className="headerListItem">
+            <FontAwesomeIcon icon={faBed} />
+            <span>Attractions</span>
+          </div>
+          <div className="headerListItem">
+            <FontAwesomeIcon icon={faTaxi} />
+            <span>Airport taxis</span>
+          </div>
+        </div>
+        {type !== "list" && (
+          <>
+            <h1 className="headerTitle">
+              A lifetime of discounts? It's Genius.
+            </h1>
+            
+            <button className="headerBtn">Sign in / Register</button>
+            <div className="headerSearch">
+            <form
           id="form"
           className=""
           onSubmit={handleSubmit(onSubmit)}
@@ -117,7 +166,7 @@ const SearchForm = () => {
           />
           
           </span>
-          <div className="Purposeclass">
+          <span className="Purposeclass">
          
           <select
             id="travel_purpose"
@@ -128,12 +177,15 @@ const SearchForm = () => {
             <option value="leisure">leisure</option>
             <option value="business">business</option>
           </select>
-          </div>
-          <button disabled={SubmitDisable}>Search</button>
+          </span>
+          <button className="SubmitDisable" disabled={SubmitDisable}>Search</button>
         </form>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-export default SearchForm;
+export default Header;
