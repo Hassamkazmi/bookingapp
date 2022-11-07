@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import "./searchItem.css";
+import {Link} from 'react-router-dom'
 
 const SearchItem = () => {
 
@@ -28,7 +29,8 @@ const SearchItem = () => {
       {
         Item.map((data) => {
           return(
-            <div className="searchItem">
+            <Link to={`/hotels/${data.hotel_id}`} className="linkstyle">
+              <div className="searchItem">
       <img
         src={data.main_photo_url}
         alt=""
@@ -60,7 +62,8 @@ const SearchItem = () => {
           <button className="siCheckButton" onClick={() => {}}>See availability</button>
         </div>
       </div>
-               </div>
+            </div>
+            </Link>
           )
         })
       }

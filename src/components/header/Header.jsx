@@ -82,7 +82,7 @@ const Header = ({ type }) => {
     setDisable(false);
   };
 
-  const SubmitDisable =  ArrivalDate === undefined || DepartDate === undefined
+  const SubmitDisable =  ArrivalDate === undefined 
 
   console.log(ArrivalDate,'ArrivalDate')
   // const handleSearch = () => {
@@ -178,7 +178,7 @@ const Header = ({ type }) => {
             <option value="business">business</option>
           </select>
           </span>
-          <button className="SubmitDisable" >Search</button>
+          <button className="SubmitDisable" disabled={SubmitDisable} >Search</button>
         </form>
             </div>
           </>
@@ -187,5 +187,4 @@ const Header = ({ type }) => {
     </div>
   );
 };
-
 export default Header;

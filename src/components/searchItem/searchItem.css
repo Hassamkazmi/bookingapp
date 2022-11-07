@@ -13,7 +13,10 @@
   height: 200px;
   object-fit: cover;
 }
-
+.linkstyle{
+  text-decoration: none;
+  list-style: none;
+}
 .siDesc {
   display: flex;
   flex-direction: column;

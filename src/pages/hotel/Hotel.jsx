@@ -11,11 +11,30 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [Item, setItem] = useState();
 
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "4fee570625msh0f4fbee7ecefb73p1e0c35jsnf7b4af6be358",
+        "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
+      },
+    };
+
+    fetch(
+      "https://apidojo-booking-v1.p.rapidapi.com/properties/list?offset=0&arrival_date=2022-12-14&departure_date=2022-12-15&guest_qty=1&dest_ids=-3712125&room_qty=1&search_type=city&children_qty=2&children_age=5%2C7&search_id=none&price_filter_currencycode=USD&order_by=popularity&languagecode=en-us&travel_purpose=leisure",
+      options
+    )
+      .then((response) => response.json())
+      .then((response) => setItem(response.result))
+      .catch((err) => console.error(err));
+  }, []);
   const photos = [
     {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -37,6 +56,11 @@ const Hotel = () => {
     },
   ];
 
+
+  function handlePage(id){
+    // alert(id)
+    window.open(id)
+  }
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -51,94 +75,110 @@ const Hotel = () => {
       newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
     }
 
-    setSlideNumber(newSlideNumber)
+    setSlideNumber(newSlideNumber);
   };
 
   return (
     <div>
       <Navbar />
       <Header type="list" />
-      <div className="hotelContainer">
-        {open && (
-          <div className="slider">
-            <FontAwesomeIcon
-              icon={faCircleXmark}
-              className="close"
-              onClick={() => setOpen(false)}
-            />
-            <FontAwesomeIcon
-              icon={faCircleArrowLeft}
-              className="arrow"
-              onClick={() => handleMove("l")}
-            />
-            <div className="sliderWrapper">
-              <img src={photos[slideNumber].src} alt="" className="sliderImg" />
-            </div>
-            <FontAwesomeIcon
-              icon={faCircleArrowRight}
-              className="arrow"
-              onClick={() => handleMove("r")}
-            />
-          </div>
-        )}
-        <div className="hotelWrapper">
-          <button className="bookNow">Reserve or Book Now!</button>
-          <h1 className="hotelTitle">Tower Street Apartments</h1>
-          <div className="hotelAddress">
-            <FontAwesomeIcon icon={faLocationDot} />
-            <span>Elton St 125 New york</span>
-          </div>
-          <span className="hotelDistance">
-            Excellent location – 500m from center
-          </span>
-          <span className="hotelPriceHighlight">
-            Book a stay over $114 at this property and get a free airport taxi
-          </span>
-          <div className="hotelImages">
-            {photos.map((photo, i) => (
-              <div className="hotelImgWrapper" key={i}>
-                <img
-                  onClick={() => handleOpen(i)}
-                  src={photo.src}
-                  alt=""
-                  className="hotelImg"
-                />
+      {Item === undefined ? (
+        <>Loading</>
+      ) : (
+        <>
+          {Item.map((data) => {
+            return (
+              <div className="hotelContainer">
+                {open && (
+                  <div className="slider">
+                    <FontAwesomeIcon
+                      icon={faCircleXmark}
+                      className="close"
+                      onClick={() => setOpen(false)}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCircleArrowLeft}
+                      className="arrow"
+                      onClick={() => handleMove("l")}
+                    />
+                    <div className="sliderWrapper">
+                      <img
+                        src={photos[slideNumber].src}
+                        alt=""
+                        className="sliderImg"
+                      />
+                    </div>
+                    <FontAwesomeIcon
+                      icon={faCircleArrowRight}
+                      className="arrow"
+                      onClick={() => handleMove("r")}
+                    />
+                  </div>
+                )}
+                <div className="hotelWrapper">
+                  <button className="bookNow">Reserve or Book Now!</button>
+                  <h1 className="hotelTitle">Tower Street Apartments</h1>
+                  <div className="hotelAddress">
+                    <FontAwesomeIcon icon={faLocationDot} />
+                    <span>Elton St 125 New york</span>
+                  </div>
+                  <span className="hotelDistance">
+                    Excellent location – 500m from center
+                  </span>
+                  <span className="hotelPriceHighlight">
+                    Book a stay over $114 at this property and get a free
+                    airport taxi
+                  </span>
+                  <div className="hotelImages">
+                    {photos.map((photo, i) => (
+                      <div className="hotelImgWrapper" key={i}>
+                        <img
+                          onClick={() => handleOpen(i)}
+                          src={photo.src}
+                          alt=""
+                          className="hotelImg"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="hotelDetails">
+                    <div className="hotelDetailsTexts">
+                      <h1 className="hotelTitle">Stay in the heart of City</h1>
+                      <p className="hotelDesc">
+                        Located a 5-minute walk from St. Florian's Gate in
+                        Krakow, Tower Street Apartments has accommodations with
+                        air conditioning and free WiFi. The units come with
+                        hardwood floors and feature a fully equipped kitchenette
+                        with a microwave, a flat-screen TV, and a private
+                        bathroom with shower and a hairdryer. A fridge is also
+                        offered, as well as an electric tea pot and a coffee
+                        machine. Popular points of interest near the apartment
+                        include Cloth Hall, Main Market Square and Town Hall
+                        Tower. The nearest airport is John Paul II International
+                        Kraków–Balice, 16.1 km from Tower Street Apartments, and
+                        the property offers a paid airport shuttle service.
+                      </p>
+                    </div>
+                    <div className="hotelDetailsPrice">
+                      <h1>Perfect for a 9-night stay!</h1>
+                      <span>
+                        Located in the real heart of Krakow, this property has
+                        an excellent location score of 9.8!
+                      </span>
+                      <h2>
+                        <b>$945</b> (9 nights)
+                      </h2>
+                      <button   onClick={() => handlePage(data.url)}>Reserve or Book Now!</button>
+                    </div>
+                  </div>
+                </div>
+                <MailList />
+                <Footer />
               </div>
-            ))}
-          </div>
-          <div className="hotelDetails">
-            <div className="hotelDetailsTexts">
-              <h1 className="hotelTitle">Stay in the heart of City</h1>
-              <p className="hotelDesc">
-                Located a 5-minute walk from St. Florian's Gate in Krakow, Tower
-                Street Apartments has accommodations with air conditioning and
-                free WiFi. The units come with hardwood floors and feature a
-                fully equipped kitchenette with a microwave, a flat-screen TV,
-                and a private bathroom with shower and a hairdryer. A fridge is
-                also offered, as well as an electric tea pot and a coffee
-                machine. Popular points of interest near the apartment include
-                Cloth Hall, Main Market Square and Town Hall Tower. The nearest
-                airport is John Paul II International Kraków–Balice, 16.1 km
-                from Tower Street Apartments, and the property offers a paid
-                airport shuttle service.
-              </p>
-            </div>
-            <div className="hotelDetailsPrice">
-              <h1>Perfect for a 9-night stay!</h1>
-              <span>
-                Located in the real heart of Krakow, this property has an
-                excellent location score of 9.8!
-              </span>
-              <h2>
-                <b>$945</b> (9 nights)
-              </h2>
-              <button>Reserve or Book Now!</button>
-            </div>
-          </div>
-        </div>
-        <MailList />
-        <Footer />
-      </div>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 };
