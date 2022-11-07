@@ -1,8 +1,6 @@
 import {
   faBed,
-  faCalendarDays,
   faCar,
-  faPerson,
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
@@ -15,12 +13,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-const Header = ({ type }) => {
+const Header = ({ type, data }) => {
   const [ArrivalDate, SetArrivalDate] = useState();
   const [DepartDate, SetDepartDate] = useState();
   const [Disable, setDisable] = useState(true);
   const [DataonTable, setDataonTable] = useState([]);
-  const navigate = useNavigate();;
+  const [Search, setSearch] = useState();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -39,15 +38,15 @@ const Header = ({ type }) => {
         room_qty: data.room_qty,
         search_type: data.searchtype,
         children_qty: data.children_qty,
-        children_age: data.ChildrenAge,
+        children_age: data.children_qty,
         search_id: "none",
         order_by: data.orderby,
         languagecode: "en-us",
-        price_filter_currencycode:'USD',
+        price_filter_currencycode: "USD",
         travel_purpose: data.travel_purpose,
       },
       headers: {
-        "X-RapidAPI-Key": "f3b9c80997msh251f038da25364fp13acfdjsn9971553ef46f",
+        "X-RapidAPI-Key": "35de3c2a5fmsh5af517dfb3e19e3p1230cdjsn03d3df0824b2",
         "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
       },
     };
@@ -57,7 +56,9 @@ const Header = ({ type }) => {
       .request(options)
       .then(function (response) {
         setDataonTable(response.data.result);
-        console.log(response);
+        setSearch(response.data);
+        console.log(Search, "search");
+
         return response.data.result;
       })
       .catch(function (error) {
@@ -67,7 +68,14 @@ const Header = ({ type }) => {
   const onSubmit = async (data, event) => {
     await ApiSubmission(data);
     setDataonTable(await ApiSubmission(data));
-    navigate('/hotels')
+    console.log(Search, "search");
+    navigate("/hotels", {
+      state: {
+        children_qty: data.children_qty,
+        dateD: DepartDate,
+        dateA: ArrivalDate,
+      },
+    });
   };
   var date = new Date();
   function toJSONLocal(date) {
@@ -76,18 +84,16 @@ const Header = ({ type }) => {
     return local.toJSON().slice(0, 10);
   }
 
-
   const arrivalchange = async (event) => {
     SetArrivalDate(event.target.value);
     setDisable(false);
   };
-
-  const SubmitDisable =  ArrivalDate === undefined 
-
-  console.log(ArrivalDate,'ArrivalDate')
-  // const handleSearch = () => {
-  //   navigate("/hotels", { state: { destination, date, options } });
-  // };
+  const departchange = async (event) => {
+    SetDepartDate(event.target.value);
+  };
+  const SubmitDisable =
+    ArrivalDate === undefined ||
+    DepartDate === undefined
 
   return (
     <div className="header">
@@ -123,63 +129,64 @@ const Header = ({ type }) => {
             <h1 className="headerTitle">
               A lifetime of discounts? It's Genius.
             </h1>
-            
+
             <button className="headerBtn">Sign in / Register</button>
             <div className="headerSearch">
-            <form
-          id="form"
-          className=""
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <input type="text" {...register("Address")} placeholder="Address" />
-          <input
-            type="text"
-            {...register("guest_qty")}
-            placeholder="GuestQunatity"
-          />
-          <input
-            type="text"
-            {...register("room_qty")}
-            placeholder="RoomQunatity"
-          />
+              <form id="form" className="" onSubmit={handleSubmit(onSubmit)}>
+                <input
+                  type="text"
+                  {...register("Address")}
+                  placeholder="Address"
+                />
+                <input
+                  type="text"
+                  {...register("guest_qty")}
+                  placeholder="GuestQunatity"
+                />
+                <input
+                  type="text"
+                  {...register("room_qty")}
+                  placeholder="RoomQunatity"
+                />
 
-          <input
-            type="date"
-            {...register("arrival_date")}
-            onChange={arrivalchange}
-            min={toJSONLocal(date)}
-          />
+                <input
+                  type="date"
+                  {...register("arrival_date")}
+                  onChange={arrivalchange}
+                  min={toJSONLocal(date)}
+                />
 
-          <input
-            type="date"
-            {...register("departure_date")}
-            min={ArrivalDate}
-            disabled={Disable}
-          />
-          
-          <span className="Childrenclass">
-          <input
-           type='number'
-            name="children_qty"
-            {...register("children_qty")}
-            placeholder="Number OF Children"
-          />
-          
-          </span>
-          <span className="Purposeclass">
-         
-          <select
-            id="travel_purpose"
-            name="travel_purpose"
-            {...register("travel_purpose")}
-          >
-            <option>Travel Purpose</option>
-            <option value="leisure">leisure</option>
-            <option value="business">business</option>
-          </select>
-          </span>
-          <button className="SubmitDisable" disabled={SubmitDisable} >Search</button>
-        </form>
+                <input
+                  type="date"
+                  {...register("departure_date")}
+                  min={ArrivalDate}
+                  onChange={departchange}
+                  disabled={Disable}
+                />
+
+                <span className="Childrenclass">
+                  <input
+                    type="number"
+                    name="children_qty"
+                    {...register("children_qty")}
+                    placeholder="Number OF Children"
+                  />
+                </span>
+                <span className="Purposeclass">
+                  <select
+                    id="travel_purpose"
+                    name="travel_purpose"
+                    {...register("travel_purpose")}
+                  >
+                    <option>Travel Purpose</option>
+                    <option value="leisure">leisure</option>
+                    <option value="business">business</option>
+                  </select>
+                </span>
+                <button className="SubmitDisable" disabled={SubmitDisable}>
+                  Search
+                </button>
+              </form>
             </div>
           </>
         )}

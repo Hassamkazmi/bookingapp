@@ -145,6 +145,7 @@ select#travel_purpose{
 
 button:disabled{
   background-color: #434344;
+  cursor: default;
 }
 .SubmitDisable{
   height: 45px;

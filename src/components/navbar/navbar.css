@@ -13,7 +13,10 @@
   align-items: center;
   justify-content: space-between;
 }
-
+.linkstyle1{
+  color: #fff;
+  text-decoration: none;
+}
 .logo{
   font-weight: 500;
 }

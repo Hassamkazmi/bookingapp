@@ -12,27 +12,43 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useEffect } from "react";
-
-const Hotel = () => {
+import { useParams, useLocation } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
+const Hotel = (data) => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [Item, setItem] = useState();
+  const [Detail, setDetail] = useState();
 
+  const { state } = useLocation();
+  const sid = localStorage.getItem("searchid");
+  let { id } = useParams();
+
+  const { dateD, dateA } = state;
+  console.log(dateD, dateA, "main data 11111");
   useEffect(() => {
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "4fee570625msh0f4fbee7ecefb73p1e0c35jsnf7b4af6be358",
+        "X-RapidAPI-Key": "35de3c2a5fmsh5af517dfb3e19e3p1230cdjsn03d3df0824b2",
         "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
       },
     };
 
     fetch(
-      "https://apidojo-booking-v1.p.rapidapi.com/properties/list?offset=0&arrival_date=2022-12-14&departure_date=2022-12-15&guest_qty=1&dest_ids=-3712125&room_qty=1&search_type=city&children_qty=2&children_age=5%2C7&search_id=none&price_filter_currencycode=USD&order_by=popularity&languagecode=en-us&travel_purpose=leisure",
+      `https://apidojo-booking-v1.p.rapidapi.com/properties/get-description?hotel_ids=${id}&check_out=2023-03-15&languagecode=en-us&check_in=2023-03-13`,
       options
     )
       .then((response) => response.json())
-      .then((response) => setItem(response.result))
+      .then((response) => setItem(...response))
+      .catch((err) => console.error(err));
+
+    fetch(
+      `https://apidojo-booking-v1.p.rapidapi.com/properties/detail?hotel_id=${id}&search_id=${sid}&departure_date=${dateD}&arrival_date=${dateA}&rec_guest_qty=2&rec_room_qty=1&dest_ids=-3727579&recommend_for=3&languagecode=en-us&currency_code=USD&units=imperial`,
+      options
+    )
+      .then((response) => response.json())
+      .then((response) => setDetail(...response))
       .catch((err) => console.error(err));
   }, []);
   const photos = [
@@ -56,10 +72,8 @@ const Hotel = () => {
     },
   ];
 
-
-  function handlePage(id){
-    // alert(id)
-    window.open(id)
+  function handlePage(id) {
+    window.open(id);
   }
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -77,106 +91,119 @@ const Hotel = () => {
 
     setSlideNumber(newSlideNumber);
   };
-
   return (
     <div>
       <Navbar />
       <Header type="list" />
-      {Item === undefined ? (
-        <>Loading</>
+      {Detail === undefined ? (
+        <Loader />
       ) : (
         <>
-          {Item.map((data) => {
-            return (
-              <div className="hotelContainer">
-                {open && (
-                  <div className="slider">
-                    <FontAwesomeIcon
-                      icon={faCircleXmark}
-                      className="close"
-                      onClick={() => setOpen(false)}
-                    />
-                    <FontAwesomeIcon
-                      icon={faCircleArrowLeft}
-                      className="arrow"
-                      onClick={() => handleMove("l")}
-                    />
-                    <div className="sliderWrapper">
-                      <img
-                        src={photos[slideNumber].src}
-                        alt=""
-                        className="sliderImg"
-                      />
-                    </div>
-                    <FontAwesomeIcon
-                      icon={faCircleArrowRight}
-                      className="arrow"
-                      onClick={() => handleMove("r")}
-                    />
-                  </div>
-                )}
-                <div className="hotelWrapper">
-                  <button className="bookNow">Reserve or Book Now!</button>
-                  <h1 className="hotelTitle">Tower Street Apartments</h1>
-                  <div className="hotelAddress">
-                    <FontAwesomeIcon icon={faLocationDot} />
-                    <span>Elton St 125 New york</span>
-                  </div>
-                  <span className="hotelDistance">
-                    Excellent location – 500m from center
-                  </span>
-                  <span className="hotelPriceHighlight">
-                    Book a stay over $114 at this property and get a free
-                    airport taxi
-                  </span>
-                  <div className="hotelImages">
-                    {photos.map((photo, i) => (
-                      <div className="hotelImgWrapper" key={i}>
-                        <img
-                          onClick={() => handleOpen(i)}
-                          src={photo.src}
-                          alt=""
-                          className="hotelImg"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="hotelDetails">
-                    <div className="hotelDetailsTexts">
-                      <h1 className="hotelTitle">Stay in the heart of City</h1>
-                      <p className="hotelDesc">
-                        Located a 5-minute walk from St. Florian's Gate in
-                        Krakow, Tower Street Apartments has accommodations with
-                        air conditioning and free WiFi. The units come with
-                        hardwood floors and feature a fully equipped kitchenette
-                        with a microwave, a flat-screen TV, and a private
-                        bathroom with shower and a hairdryer. A fridge is also
-                        offered, as well as an electric tea pot and a coffee
-                        machine. Popular points of interest near the apartment
-                        include Cloth Hall, Main Market Square and Town Hall
-                        Tower. The nearest airport is John Paul II International
-                        Kraków–Balice, 16.1 km from Tower Street Apartments, and
-                        the property offers a paid airport shuttle service.
-                      </p>
-                    </div>
-                    <div className="hotelDetailsPrice">
-                      <h1>Perfect for a 9-night stay!</h1>
-                      <span>
-                        Located in the real heart of Krakow, this property has
-                        an excellent location score of 9.8!
-                      </span>
-                      <h2>
-                        <b>$945</b> (9 nights)
-                      </h2>
-                      <button   onClick={() => handlePage(data.url)}>Reserve or Book Now!</button>
-                    </div>
-                  </div>
+          <div className="hotelContainer">
+            {open && (
+              <div className="slider">
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  className="close"
+                  onClick={() => setOpen(false)}
+                />
+                <FontAwesomeIcon
+                  icon={faCircleArrowLeft}
+                  className="arrow"
+                  onClick={() => handleMove("l")}
+                />
+                <div className="sliderWrapper">
+                  <img
+                    src={photos[slideNumber].src}
+                    alt=""
+                    className="sliderImg"
+                  />
                 </div>
-                <MailList />
-                <Footer />
+                <FontAwesomeIcon
+                  icon={faCircleArrowRight}
+                  className="arrow"
+                  onClick={() => handleMove("r")}
+                />
               </div>
-            );
-          })}
+            )}
+            <div className="hotelWrapper">
+              <button
+                className="bookNow"
+                onClick={() => {
+                  handlePage(Detail.url);
+                }}
+              >
+                Reserve or Book Now!
+              </button>
+              <h1 className="hotelTitle">{Detail.hotel_name}</h1>
+              <div className="hotelAddress">
+                <FontAwesomeIcon icon={faLocationDot} />
+                <span>{Detail.address}</span>
+              </div>
+              <span className="hotelDistance">{Detail.arrival_date}</span>
+              <span className="hotelPriceHighlight">
+                Book a stay over $114 at this property and get a free airport
+                taxi
+              </span>
+              <div className="hotelImages">
+                {photos.map((photo, i) => (
+                  <div className="hotelImgWrapper" key={i}>
+                    <img
+                      onClick={() => handleOpen(i)}
+                      src={photo.src}
+                      alt=""
+                      className="hotelImg"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="hotelDetails">
+                <div className="hotelDetailsTexts">
+                  <h1 className="hotelTitle">Stay in the heart of City</h1>
+                  <p className="hotelDesc">
+                    {Item.description === undefined ? (
+                      <>
+                        Providing sea views, Căn hộ hướng Biển -MUONG THANH- Sea
+                        View Apartment in Danang provides accommodations, a
+                        restaurant, a bar, a shared lounge, a private beach area
+                        and a casino. Complimentary WiFi is
+                        provided.\n\nFeaturing a kitchen with a microwave and a
+                        fridge, each unit also comes with a safety deposit box,
+                        a satellite flat-screen TV, ironing facilities, desk and
+                        a seating area with a sofa. There's a private bathroom
+                        with bidet in some units, along with bathrobes, slippers
+                        and a hairdryer.\n\nThe apartment has a terrace.\n\nBoth
+                        a bicycle rental service and a car rental service are
+                        available at Căn hộ hướng Biển -MUONG THANH
+                      </>
+                    ) : (
+                      Item.description
+                    )}
+                  </p>
+                </div>
+                <div className="hotelDetailsPrice">
+                  <h1>{Detail.urgency_room_string}</h1>
+                  <span>
+                    Located in the real heart of Krakow, this property has an
+                    excellent location score of {Detail.review_nr}!
+                  </span>
+                  <h2>
+                    <b>${Detail.block_price_breakdown.gross_price}</b> (9
+                    nights)
+                  </h2>
+                  <button
+                    onClick={() => {
+                      handlePage(Detail.url);
+                    }}
+                  >
+                    Reserve or Book Now!
+                  </button>
+                </div>
+              </div>
+            </div>
+            <MailList />
+            <Footer />
+          </div>
         </>
       )}
     </div>
@@ -184,3 +211,4 @@ const Hotel = () => {
 };
 
 export default Hotel;
+
