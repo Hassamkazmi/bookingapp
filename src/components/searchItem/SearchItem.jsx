@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import "./searchItem.css";
-import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from '../loader/Loader'
 
@@ -13,7 +12,6 @@ const SearchItem = () => {
   const { state } = useLocation();
 
   const { children_qty, dateD, dateA } = state;
-  console.log(children_qty, dateD, dateA, "main data");
   useEffect(() => {
     const options = {
       method: "GET",
@@ -32,7 +30,7 @@ const SearchItem = () => {
         setItem(response.result)(setDetail(response.search_id))
       )
       .catch((err) => console.error(err));
-  }, []);
+  }, [children_qty,dateA,dateD]);
   function handlePage(id) {
     window.open(id);
   }
@@ -47,11 +45,12 @@ const SearchItem = () => {
         <Loader />
       ) : (
         <>
-          {Item.map((data) => {
+          {Item.map((data,index) => {
             return (
               <span
                 onClick={() => handleOpen(data.hotel_id)}
                 className="linkstyle1"
+                key={index}
               >
                 <div className="searchItem">
                   <img src={data.main_photo_url} alt="" className="siImg" />

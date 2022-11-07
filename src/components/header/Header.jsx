@@ -57,7 +57,7 @@ const Header = ({ type, data }) => {
       .then(function (response) {
         setDataonTable(response.data.result);
         setSearch(response.data);
-        console.log(Search, "search");
+  
 
         return response.data.result;
       })
@@ -68,7 +68,6 @@ const Header = ({ type, data }) => {
   const onSubmit = async (data, event) => {
     await ApiSubmission(data);
     setDataonTable(await ApiSubmission(data));
-    console.log(Search, "search");
     navigate("/hotels", {
       state: {
         children_qty: data.children_qty,
@@ -94,7 +93,7 @@ const Header = ({ type, data }) => {
   const SubmitDisable =
     ArrivalDate === undefined ||
     DepartDate === undefined
-
+    // console.log(DataonTable,Search,errors)
   return (
     <div className="header">
       <div

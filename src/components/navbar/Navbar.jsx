@@ -7,8 +7,7 @@ const Navbar = () => {
       <div className="navContainer">
        <Link to = '/'  className="linkstyle1"> <span className="logo">Booking App</span></Link>
         <div className="navItems">
-          <button className="navButton">Register</button>
-          <button className="navButton">Login</button>
+          
         </div>
       </div>
     </div>
