@@ -178,7 +178,7 @@ const Header = ({ type }) => {
             <option value="business">business</option>
           </select>
           </span>
-          <button className="SubmitDisable" disabled={SubmitDisable}>Search</button>
+          <button className="SubmitDisable" >Search</button>
         </form>
             </div>
           </>
