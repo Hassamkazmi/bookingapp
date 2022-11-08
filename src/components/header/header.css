@@ -224,7 +224,7 @@ input[type="text"] {
 .rdrCalendarWrapper {
   color: #000000;
   font-size: 12px;
-  margin: 27px 14px;
+  margin: 52px 0px !important;
 }
 .fList {
   list-style: none;
@@ -291,7 +291,7 @@ span.divider1{
 .options {
   z-index: 2;
   position: absolute;
-  top: 116px;
+  top: 150px;
   background-color: white;
   color: gray;
   border-radius: 5px;
