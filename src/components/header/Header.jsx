@@ -1,104 +1,112 @@
 import {
   faBed,
+  faCalendarDays,
   faCar,
+  faPerson,
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
+import { DateRange } from "react-date-range";
+import { useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import '../CSS/mediaquery.css'
 
-const Header = ({ type, data }) => {
-  const [ArrivalDate, SetArrivalDate] = useState();
-  const [DepartDate, SetDepartDate] = useState();
-  const [Disable, setDisable] = useState(true);
+const Header = ({ type }) => {
+  const [destination, setDestination] = useState("");
+  const [openDate, setOpenDate] = useState(false);
   const [DataonTable, setDataonTable] = useState([]);
   const [Search, setSearch] = useState();
+
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  const [openOptions, setOpenOptions] = useState(false);
+  const [optionsgest, setOptions] = useState({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const ApiSubmission = async (data) => {
-    const options = {
-      method: "GET",
-      url: "https://apidojo-booking-v1.p.rapidapi.com/properties/list",
-      params: {
-        offset: "1",
-        arrival_date: data.arrival_date,
-        departure_date: data.departure_date,
-        guest_qty: data.guest_qty,
-        dest_ids: "-3712125",
-        room_qty: data.room_qty,
-        search_type: data.searchtype,
-        children_qty: data.children_qty,
-        children_age: data.children_qty,
-        search_id: "none",
-        order_by: data.orderby,
-        languagecode: "en-us",
-        price_filter_currencycode: "USD",
-        travel_purpose: data.travel_purpose,
-      },
-      headers: {
-        "X-RapidAPI-Key": "35de3c2a5fmsh5af517dfb3e19e3p1230cdjsn03d3df0824b2",
-        "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
-      },
-    };
-    SetDepartDate(data.departure_date);
 
-    return await axios
-      .request(options)
-      .then(function (response) {
-        setDataonTable(response.data.result);
-        setSearch(response.data);
-  
-
-        return response.data.result;
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  };
-  const onSubmit = async (data, event) => {
-    await ApiSubmission(data);
-    setDataonTable(await ApiSubmission(data));
-    navigate("/hotels", {
-      state: {
-        children_qty: data.children_qty,
-        dateD: DepartDate,
-        dateA: ArrivalDate,
-      },
+  const handleOption = (name, operation) => {
+    setOptions((prev) => {
+      return {
+        ...prev,
+        [name]: operation === "i" ? optionsgest[name] + 1 : optionsgest[name] - 1,
+      };
     });
   };
-  var date = new Date();
-  function toJSONLocal(date) {
-    var local = new Date(date);
-    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return local.toJSON().slice(0, 10);
-  }
 
-  const arrivalchange = async (event) => {
-    SetArrivalDate(event.target.value);
-    setDisable(false);
-  };
-  const departchange = async (event) => {
-    SetDepartDate(event.target.value);
-  };
-  const SubmitDisable =
-    ArrivalDate === undefined ||
-    DepartDate === undefined
-    // console.log(DataonTable,Search,errors)
+  const dateA = format(new Date(date[0].startDate), 'yyyy-MM-dd')
+  const dateD = format(new Date(date[0].endDate), 'yyyy-MM-dd')
+  const ApiSubmission = async (data) => {
+      const options = {
+        method: "GET",
+        url: "https://apidojo-booking-v1.p.rapidapi.com/properties/list",
+        params: {
+          offset: "1",
+          arrival_date: dateA,
+          departure_date: dateD,
+          guest_qty: optionsgest.adult,
+          dest_ids: "-3712125",
+          room_qty: data.room_qty,
+          search_type: destination ,
+          children_qty: optionsgest.children,
+          children_age: '4',
+          search_id: "none",
+          order_by: data.orderby,
+          languagecode: "en-us",
+          price_filter_currencycode: "USD",
+          travel_purpose: data.travel_purpose,
+        },
+        headers: {
+          'X-RapidAPI-Key': 'e7384013famsh160f4f11514b472p1d214fjsnaa921a9fe1f0',
+          "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
+        },
+      };
+  
+      return await axios
+        .request(options)
+        .then(function (response) {
+          setDataonTable(response.data.result);
+          setSearch(response.data);
+    
+  
+          return response.data.result;
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    };
+    const handleSearch = async (data, event) => {
+      await ApiSubmission(data);
+      setDataonTable(await ApiSubmission(data));
+      navigate("/hotels", {
+        state: {
+          children_qty: optionsgest.children,
+          dateD: dateD,
+          dateA: dateA,
+        },
+      });
+    };
+
+    const submitdisable = dateD === dateA || destination === ''
   return (
     <div className="header">
       <div
         className={
-          type === "list" ? "headerContainer listMode" : "headerContainer"
+          type === "" ? "headerContainer listMode" : "headerContainer"
         }
       >
         <div className="headerList">
@@ -128,64 +136,123 @@ const Header = ({ type, data }) => {
             <h1 className="headerTitle">
               A lifetime of discounts? It's Genius.
             </h1>
-
-            <button className="headerBtn">Sign in / Register</button>
+            <p className="headerDesc">
+              Get rewarded for your travels – unlock instant savings of 10% or
+              more with a free Lamabooking account
+            </p>
             <div className="headerSearch">
-              <form id="form" className="" onSubmit={handleSubmit(onSubmit)}>
+              <div className="headerSearchItem">
+                <FontAwesomeIcon icon={faBed} className="headerIcon" />
                 <input
                   type="text"
-                  {...register("Address")}
-                  placeholder="Address"
+                  placeholder="Where are you going?"
+                  className="headerSearchInput"
+                  onChange={(e) => setDestination(e.target.value)}
+                  required
                 />
-                <input
-                  type="text"
-                  {...register("guest_qty")}
-                  placeholder="GuestQunatity"
-                />
-                <input
-                  type="text"
-                  {...register("room_qty")}
-                  placeholder="RoomQunatity"
-                />
-
-                <input
-                  type="date"
-                  {...register("arrival_date")}
-                  onChange={arrivalchange}
-                  min={toJSONLocal(date)}
-                />
-
-                <input
-                  type="date"
-                  {...register("departure_date")}
-                  min={ArrivalDate}
-                  onChange={departchange}
-                  disabled={Disable}
-                />
-
-                <span className="Childrenclass">
-                  <input
-                    type="number"
-                    name="children_qty"
-                    {...register("children_qty")}
-                    placeholder="Number OF Children"
+              </div>
+              <span className="divider1">|</span>
+              <div className="headerSearchItem">
+                <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
+                <span
+                  onClick={() => setOpenDate(!openDate)}
+                  className="headerSearchText"
+                >{`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
+                  date[0].endDate,
+                  "MM/dd/yyyy"
+                )}`}</span>
+                {openDate && (
+                  <DateRange
+                    editableDateInputs={true}
+                    onChange={(item) => setDate([item.selection])}
+                    moveRangeOnFirstSelection={false}
+                    ranges={date}
+                    className="date"
+                    minDate={new Date()}
                   />
-                </span>
-                <span className="Purposeclass">
-                  <select
-                    id="travel_purpose"
-                    name="travel_purpose"
-                    {...register("travel_purpose")}
-                  >
-                    <option>Travel Purpose</option>
-                    <option value="leisure">leisure</option>
-                    <option value="business">business</option>
-                  </select>
-                </span>
-                <button className="SubmitDisable" disabled={SubmitDisable}>
+                )}
+              </div>
+              <span className="divider1">|</span>
+              <div className="headerSearchItem">
+                <FontAwesomeIcon icon={faPerson} className="headerIcon" />
+                <span
+                  onClick={() => setOpenOptions(!openOptions)}
+                  className="headerSearchText"
+                >{`${optionsgest.adult} adult · ${optionsgest.children} children · ${optionsgest.room} room`}</span>
+                {openOptions && (
+                  <div className="options">
+                    <div className="optionItem">
+                      <span className="optionText">Adult</span>
+                      <div className="optionCounter">
+                        <button
+                          disabled={optionsgest.adult <= 1}
+                          className="optionCounterButton"
+                          onClick={() => handleOption("adult", "d")}
+                        >
+                          -
+                        </button>
+                        <span className="optionCounterNumber">
+                          {optionsgest.adult}
+                        </span>
+                        <button
+                          className="optionCounterButton"
+                          onClick={() => handleOption("adult", "i")}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <div className="optionItem">
+                      <span className="optionText">Children</span>
+                      <div className="optionCounter">
+                        <button
+                          disabled={optionsgest.children <= 0}
+                          className="optionCounterButton"
+                          onClick={() => handleOption("children", "d")}
+                        >
+                          -
+                        </button>
+                        <span className="optionCounterNumber">
+                          {optionsgest.children}
+                        </span>
+                        <button
+                          className="optionCounterButton"
+                          onClick={() => handleOption("children", "i")}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <div className="optionItem">
+                      <span className="optionText">Room</span>
+                      <div className="optionCounter">
+                        <button
+                          disabled={optionsgest.room <= 1}
+                          className="optionCounterButton"
+                          onClick={() => handleOption("room", "d")}
+                        >
+                          -
+                        </button>
+                        <span className="optionCounterNumber">
+                          {optionsgest.room}
+                        </span>
+                        <button
+                          className="optionCounterButton"
+                          onClick={() => handleOption("room", "i")}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="headerSearchItem">
+                <button className="headerBtn submiheaderBtn" disabled={submitdisable} onClick={handleSearch}>
                   Search
                 </button>
-              </form>
+              </div>
             </div>
           </>
         )}
@@ -193,4 +260,5 @@ const Header = ({ type, data }) => {
     </div>
   );
 };
+
 export default Header;

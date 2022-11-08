@@ -1,3 +1,7 @@
+*{
+  font-family: 'Roboto', sans-serif !important;
+}
+
 .header {
   background-color: #003580;
   color: white;
@@ -48,20 +52,38 @@
 }
 
 .headerSearch {
-  height: 30px;
+  /* height: 30px;
     background-color: white;
     border: 3px solid #febb02;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 10px 0px;
     border-radius: 5px;
     position: absolute;
     bottom: -25px;
-    /* width: 100%; */
-    max-width: 100%;
-}
+    width: 53.5%; */
+    height: 30px;
+    background-color: white;
+    border: 4px solid #febb02;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-radius: 5px;
+    position: absolute;
+    bottom: -25px;
+    width: 53.5%;
+    padding-left: 10px;
 
+}
+span.divider1 {
+  color: orange;
+  width: 5px;
+  background: orange;
+  /* text-align: center; */
+  height: 50px;
+}
 .headerIcon {
   color: lightgray;
 }
@@ -144,13 +166,159 @@ select#travel_purpose{
 }
 
 button:disabled{
-  background-color: #434344;
+  background-color: #0071c2;
   cursor: default;
 }
 .SubmitDisable{
   height: 45px;
-  background-color: orange;
+  background-color: #0071c2;
   border: none;
   color: white;
   cursor: pointer;
+  border: 2px solid orange;
 }
+.submiheaderBtn{
+height: 50px;
+width: 100px;
+border: 2px solid orange;
+font-weight: 600;
+font-size: 15px;
+}
+
+
+@media (max-width: 471px) and (min-width: 360px){
+  .headerSearch{
+    display: block;
+    height: 150px;
+    width: 100%;
+    bottom: inherit;
+    padding: 0;
+    border: none;
+  }
+
+  .submiheaderBtn {
+    height: 41px;
+        width: 100%;
+    /* margin-top: 18px; */
+    border: 0.3px solid orange;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.headerSearchItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 35px;
+  border: 2px solid orange;
+}
+
+input[type="text"] {
+  height: 30px;
+}
+
+.rdrCalendarWrapper {
+  color: #000000;
+  font-size: 12px;
+  margin: 27px 14px;
+}
+.fList {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+}
+.extraclass{
+  display: none;
+}
+.homeTitle {
+ display: none;
+}
+.headerList {
+  display: block;
+  gap: 40px;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+h1.headerTitle {
+  font-size: 20px;
+  width: 90%;
+  margin: auto;
+}
+.headerDesc {
+  font-size: 15px;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+span.divider1{
+  display: none;
+}
+.mail {
+  width: 100% !important;
+  padding:2px !important
+}
+.footer {
+  width: 100%;
+  font-size: 12px;
+}
+.pList {
+  width: 100%!important;
+  margin-top: 130px;
+  justify-content: space-between !important;
+}
+.mailInputContainer {
+  text-align: center;
+  display: flex;
+}
+.mailInputContainer>input {
+  margin-right: 0px !important;
+}
+.linkstyle1 {
+  margin: 30px !important;
+}
+.pListTitles>h1 {
+  font-size: 14px !important;
+  color: #444;
+}
+.options {
+  z-index: 2;
+  position: absolute;
+  top: 116px;
+  background-color: white;
+  color: gray;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px -5px rgb(0 0 0 / 40%);
+}
+.bookNow {
+  top: 70px !important;
+}
+.hotelTitle {
+  font-size: 15px !important;
+}
+.hotelDetails{
+display: block !important;
+}
+.headerContainer {
+margin: 2px !important;
+}
+h1.mailTitle {
+  font-size: 24px !important;
+}
+span.mailDesc{
+  font-size: 12px;
+}
+.searchItem{
+  display: block !important;
+}
+.SearchItem{
+  width: 100% !important;
+
+}
+.sliderImg {
+  width: 80%;
+  height: initial;
+}
+.hotelWrapper{
+  width: 100% !important;
+}
+  }

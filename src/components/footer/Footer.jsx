@@ -12,7 +12,7 @@ const Footer = () => {
           <li className="fListItem">Airports</li>
           <li className="fListItem">Hotels</li>
         </ul>
-        <ul className="fList">
+        <ul className="fList extraclass">
           <li className="fListItem">Homes </li>
           <li className="fListItem">Apartments </li>
           <li className="fListItem">Resorts </li>
@@ -20,14 +20,14 @@ const Footer = () => {
           <li className="fListItem">Hostels</li>
           <li className="fListItem">Guest houses</li>
         </ul>
-        <ul className="fList">
+        <ul className="fList extraclass">
           <li className="fListItem">Unique places to stay </li>
           <li className="fListItem">Reviews</li>
           <li className="fListItem">Unpacked: Travel articles </li>
           <li className="fListItem">Travel communities </li>
           <li className="fListItem">Seasonal and holiday deals </li>
         </ul>
-        <ul className="fList">
+        <ul className="fList extraclass">
           <li className="fListItem">Car rental </li>
           <li className="fListItem">Flight Finder</li>
           <li className="fListItem">Restaurant reservations </li>

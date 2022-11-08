@@ -16,8 +16,7 @@ const SearchItem = () => {
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "35de3c2a5fmsh5af517dfb3e19e3p1230cdjsn03d3df0824b2",
-        "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
+        'X-RapidAPI-Key': 'e7384013famsh160f4f11514b472p1d214fjsnaa921a9fe1f0',        "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
       },
     };
 
