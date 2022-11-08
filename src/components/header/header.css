@@ -188,12 +188,14 @@ font-size: 15px;
 
 @media (max-width: 471px) and (min-width: 360px){
   .headerSearch{
-    display: block;
-    height: 150px;
-    width: 100%;
-    bottom: inherit;
-    padding: 0;
     border: none;
+    bottom: inherit;
+    display: block;
+    height: 205px;
+    padding: 0;
+    margin: 10px 10px 10px;
+    width: 94%;
+    background: orange;
   }
 
   .submiheaderBtn {
@@ -206,11 +208,13 @@ font-size: 15px;
 }
 
 .headerSearchItem {
-  display: flex;
   align-items: center;
-  gap: 10px;
-  height: 35px;
-  border: 2px solid orange;
+    border: 2px solid orange;
+    display: flex;
+    gap: 10px;
+    height: 40px;
+    background: #fff;
+    margin: 6px;
 }
 
 input[type="text"] {
@@ -234,10 +238,13 @@ input[type="text"] {
  display: none;
 }
 .headerList {
-  display: block;
-  gap: 40px;
-  margin-bottom: 10px;
-  padding: 20px;
+display: none !important;
+}
+
+.logo {
+  font-weight: 500;
+  font-size: 25px;
+  margin-left: -10px;
 }
 h1.headerTitle {
   font-size: 20px;
@@ -245,10 +252,11 @@ h1.headerTitle {
   margin: auto;
 }
 .headerDesc {
-  font-size: 15px;
+  font-size: 14px;
   width: 90%;
   margin: auto;
   margin-bottom: 20px;
+  line-height: 22px;
 }
 span.divider1{
   display: none;
@@ -290,7 +298,7 @@ span.divider1{
   box-shadow: 0px 0px 10px -5px rgb(0 0 0 / 40%);
 }
 .bookNow {
-  top: 70px !important;
+  top: 10px !important;
 }
 .hotelTitle {
   font-size: 15px !important;
@@ -315,10 +323,20 @@ span.mailDesc{
 
 }
 .sliderImg {
-  width: 80%;
-  height: initial;
+  width: 100% !important;
+  height: initial !important;
 }
 .hotelWrapper{
   width: 100% !important;
+}
+
+.homeContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 90px !important;
+  width: 94%;
+    margin: auto;
 }
   }
