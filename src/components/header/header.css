@@ -299,7 +299,7 @@ span.divider1{
   box-shadow: 0px 0px 10px -5px rgb(0 0 0 / 40%);
 }
 .bookNow {
-  top: -17px !important;
+  display: none !important;
 }
 .hotelTitle {
   font-size: 15px !important;
@@ -348,5 +348,8 @@ svg.svg-inline--fa.fa-calendar-days.headerIcon{
 }
 svg.svg-inline--fa.fa-person.headerIcon{
   padding: 12px !important;
+}
+.hotelDetailsPrice {
+  margin-top: 16px !important;
 }
   }
