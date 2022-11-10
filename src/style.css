@@ -1,0 +1,156 @@
+.linkstyle1 {
+    font-size: 26px;
+    font-weight: 900 !important;
+}
+.navbar {
+    height: 90px !important;
+}
+.SearchItem {
+    margin-top: 8% !important;
+}
+.searchItem {
+    border: 1px solid #efefef !important;
+    transition: all 200ms ease-in-out;
+    padding: 10px 10px 10px 10px !important;
+}
+.searchItem:hover{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: all 200ms ease-in-out;
+}
+.searchItem:hover img{
+    cursor: pointer;
+}
+.siDesc {
+    justify-content: center !important;
+}
+.siImg {
+    width: 290px !important;
+    height: 300px !important;
+    object-fit: unset !important; 
+}
+.siDesc h1{
+    font-size: 26px !important;
+    color: #0071c2;
+}
+.siDesc span {
+    font-size: 16px !important;
+}.siTaxiOp {
+    font-size: 12px;
+    background-color: #008009;
+    color: white;
+    width: max-content ;
+    padding: 12px !important;
+    border-radius: 5px;
+    width: 140px !important;
+    text-align: center !important;
+}
+.siRating {
+    display: flex;
+    justify-content: flex-end !important;
+}
+.siRating span{
+    margin-right: 10px !important;
+}
+.siCheckButton {
+    padding: 13px 5px !important;
+    font-size: 16px;
+    text-transform: capitalize;
+    transition: all 200ms ease-in-out;
+}
+.searchItem:hover button{
+    background-color: #febb02;
+    transition: all 200ms ease-in-out;
+}
+.hotelWrapper {
+    width: 60% !important;
+    margin-top: 8% !important;
+}
+.bookNow{
+    padding: 13px 25px !important;
+    font-size: 16px;
+    text-transform: capitalize;
+    transition: all 200ms ease-in-out;
+}
+.bookNow:hover{
+    background-color: #febb02;
+    transition: all 200ms ease-in-out;
+}
+.hotelDetailsPrice > button{
+    padding: 13px 25px !important;
+    font-size: 16px;
+    text-transform: capitalize;
+    transition: all 200ms ease-in-out;
+}
+.hotelDetailsPrice > button:hover{
+    background-color: #febb02;
+    transition: all 200ms ease-in-out;
+}
+@media (max-width: 471px) and (min-width: 360px){
+    .pListItem {
+        width: 45% !important;
+        flex: 0 0 45% !important;
+    }
+    .pList {
+        overflow-x: scroll !important;
+        margin-top: 220px !important;
+    }
+    .pList::-webkit-scrollbar {
+        width: 0px !important;
+      }
+      .headerSearch {
+        padding: 30px !important;
+        width: 80% !important;
+        background: orange;
+        left: -2px !important;
+    }
+    .homeContainer .mail {
+        width: 100% !important;
+        padding: 60px !important;
+    }
+    .headerContainer {
+        padding: 15px 6px;
+    }
+    body{
+        overflow-x: hidden !important;
+    }
+    html{
+        overflow-x: hidden !important;
+    }
+    .header .headerList{
+        display: flex !important;
+        overflow-x: scroll;
+    }
+    .header .headerList::-webkit-scrollbar {
+        width: 0px !important;
+      }
+    .headerListItem {
+        width: 100px;
+        flex: 0 0 115px;
+        justify-content: center;
+    }
+    .siImg {
+        width: 100% !important;
+        height: 300px !important;
+        object-fit: cover !important;
+    }
+    .siRating {
+        justify-content: center !important;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .searchItem {
+        margin: 12px;
+    }
+    .siTaxiOp {
+        width: 90% !important;
+    }
+    span.siPrice {
+        text-align: center;
+    }
+    .mail {
+        width: 100% !important;
+        padding: 60px !important;
+    }
+}
+
+

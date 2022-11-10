@@ -261,10 +261,7 @@ h1.headerTitle {
 span.divider1{
   display: none;
 }
-.mail {
-  width: 100% !important;
-  padding:2px !important
-}
+
 .footer {
   width: 100%;
   font-size: 12px;
