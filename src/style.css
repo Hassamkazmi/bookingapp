@@ -97,6 +97,9 @@
     background-color: #febb02;
     transition: all 300ms ease-in-out;
 }
+.footer {
+    margin-top: 40px !important;
+}
 @media (max-width: 471px) and (min-width: 360px){
     .pListItem {
         width: 45% !important;
